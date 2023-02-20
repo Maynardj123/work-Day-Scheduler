@@ -16,9 +16,43 @@ $(function () {
     // function? How can DOM traversal be used to get the "hour-x" id of the
     // time-block containing the button that was clicked? How might the id be
     // useful when saving the description in local storage?
-    
-    $('.btn').on('click', function(){
-      
+    var timeBlocks = $('.time-block')
+
+    // loading a string of an array
+    const hasSaved = Boolean(localStorage.getItem('schedule'))
+    if (hasSaved) {
+      // 
+      const json = localStorage.getItem('schedule')
+      const tasks = JSON.parse(json)
+      for (let i = 0; i < tasks.length; i++) {
+        timeBlocks.eq(i).find('.description').val(tasks[i])
+      }
+
+
+    }
+  // TODO: get military hour from day.js
+    const hour = 14
+   
+    // console.log(timeBlocks)
+    timeBlocks.each((i, element) => {
+      aHour = parseInt(element.id.split('-')[1])
+      if (hour < aHour) {
+        $(element).addClass('future')
+      }else if(hour == aHour) {
+        $(element).addClass('present')
+      }else {
+        $(element).addClass('past')
+      }
+    });
+
+    $('.saveBtn').on('click', function(){
+      let tasks = []
+      for (let i = 0; i < timeBlocks.length; i++){
+        tasks.push(timeBlocks.eq(i).find('.description').val())
+      }
+      console.log(tasks)
+      // saving a sting of an array
+      localStorage.setItem('schedule', JSON.stringify(tasks))
     })
 
     // TODO: Add code to apply the past, present, or future class to each time
