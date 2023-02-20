@@ -31,9 +31,10 @@ $(function () {
 
     }
   // TODO: get military hour from day.js
-    const hour = 14
+    const hour = dayjs().format('H')
    
     // console.log(timeBlocks)
+    // grabbing the time before the - in the array to determine if it is past present or future
     timeBlocks.each((i, element) => {
       aHour = parseInt(element.id.split('-')[1])
       if (hour < aHour) {
@@ -45,6 +46,7 @@ $(function () {
       }
     });
 
+    // once the save button is clicked it will grab the value of the description and store it in local storage
     $('.saveBtn').on('click', function(){
       let tasks = []
       for (let i = 0; i < timeBlocks.length; i++){
